@@ -45,6 +45,8 @@ contract Staker {
     function execute() external notCompleted {
         require(block.timestamp > deadline, "You cannot execute yet");
 
+        require(!openForWithDraw, "Staking was NOT successful, threshold was NOT reached");
+
         uint contractBalance = address(this).balance;
 
         if (contractBalance >= threshold) {
