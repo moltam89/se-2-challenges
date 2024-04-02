@@ -17,6 +17,11 @@ contract Staker {
 
     ExampleExternalContract public exampleExternalContract;
 
+    modifier notCompleted {
+        require(!exampleExternalContract.completed(), "Staking was successful, threshold was reached");
+        _;
+    }
+
     constructor(address exampleExternalContractAddress) {
         exampleExternalContract = ExampleExternalContract(exampleExternalContractAddress);
     }
@@ -37,7 +42,7 @@ contract Staker {
     // After some `deadline` allow anyone to call an `execute()` function
     // If the deadline has passed and the threshold is met, it should call `exampleExternalContract.complete{value: address(this).balance}()`
 
-    function execute() external {
+    function execute() external notCompleted {
         require(block.timestamp > deadline, "You cannot execute yet");
 
         uint contractBalance = address(this).balance;
@@ -52,7 +57,7 @@ contract Staker {
 
     // If the `threshold` was not met, allow everyone to call a `withdraw()` function to withdraw their balance
 
-    function withdraw() external {
+    function withdraw() external notCompleted {
         require(openForWithDraw, "You cannot withdraw");
 
         uint userBalance = balances[msg.sender];
