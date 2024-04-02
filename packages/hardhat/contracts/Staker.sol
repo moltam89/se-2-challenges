@@ -24,7 +24,7 @@ contract Staker {
     // Collect funds in a payable `stake()` function and track individual `balances` with a mapping:
     // (Make sure to add a `Stake(address,uint256)` event and emit it for the frontend `All Stakings` tab to display)
 
-    function stake() external payable {
+    function stake() public payable {
         balances[msg.sender] += msg.value;
 
         emit Stake(msg.sender, msg.value);
@@ -74,4 +74,7 @@ contract Staker {
 
     // Add the `receive()` special function that receives eth and calls stake()
 
+    receive() external payable {
+        stake();
+    }
 }
