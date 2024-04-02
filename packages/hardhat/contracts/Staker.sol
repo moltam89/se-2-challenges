@@ -48,6 +48,16 @@ contract Staker {
 
     // If the `threshold` was not met, allow everyone to call a `withdraw()` function to withdraw their balance
 
+    function withdraw() external {
+        require(openForWithDraw, "You cannot withdraw");
+
+        uint userBalance = balances[msg.sender];
+
+        balances[msg.sender] = 0;
+
+        payable(msg.sender).transfer(userBalance);
+    }
+
 
     // Add a `timeLeft()` view function that returns the time left before the deadline for the frontend
 
