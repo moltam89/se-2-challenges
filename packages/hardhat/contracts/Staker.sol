@@ -53,6 +53,8 @@ contract Staker {
 
         uint userBalance = balances[msg.sender];
 
+        require(userBalance != 0, "Your balance is 0, cannot withdraw");
+
         balances[msg.sender] = 0;
 
         payable(msg.sender).transfer(userBalance);
@@ -60,6 +62,14 @@ contract Staker {
 
 
     // Add a `timeLeft()` view function that returns the time left before the deadline for the frontend
+
+    function timeLeft() external view returns(uint) {
+        if (block.timestamp < deadline) {
+            return deadline - block.timestamp;
+        }
+
+        return 0;
+    }
 
 
     // Add the `receive()` special function that receives eth and calls stake()
