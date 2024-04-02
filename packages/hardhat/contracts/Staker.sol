@@ -11,6 +11,10 @@ contract Staker {
 
     event Stake(address, uint);
 
+    uint public deadline = block.timestamp + 30 seconds;
+
+    bool public openForWithDraw = false;
+
     ExampleExternalContract public exampleExternalContract;
 
     constructor(address exampleExternalContractAddress) {
@@ -29,6 +33,18 @@ contract Staker {
     // After some `deadline` allow anyone to call an `execute()` function
     // If the deadline has passed and the threshold is met, it should call `exampleExternalContract.complete{value: address(this).balance}()`
 
+    function execute() external {
+        require(block.timestamp > deadline, "You cannot execute yet");
+
+        uint contractBalance = address(this).balance;
+
+        if (contractBalance >= threshold) {
+            exampleExternalContract.complete{value: contractBalance}();
+        }
+        else {
+            openForWithDraw = true;
+        }
+    }
 
     // If the `threshold` was not met, allow everyone to call a `withdraw()` function to withdraw their balance
 
