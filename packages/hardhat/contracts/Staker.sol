@@ -25,6 +25,8 @@ contract Staker {
     // (Make sure to add a `Stake(address,uint256)` event and emit it for the frontend `All Stakings` tab to display)
 
     function stake() public payable {
+        require(block.timestamp <= deadline, "Staking is over, the deadline is reached");
+
         require(msg.value > 0, "You have to send some eth");
 
         balances[msg.sender] += msg.value;
