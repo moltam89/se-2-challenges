@@ -68,7 +68,10 @@ contract Staker {
 
         balances[msg.sender] = 0;
 
-        payable(msg.sender).transfer(userBalance);
+        // payable(msg.sender).transfer(userBalance);
+        (bool success, ) = msg.sender.call{value: userBalance}("");
+
+        require(success, "Failed to send ether");
     }
 
 
