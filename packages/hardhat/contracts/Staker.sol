@@ -29,8 +29,8 @@ contract Staker {
     // Collect funds in a payable `stake()` function and track individual `balances` with a mapping:
     // (Make sure to add a `Stake(address,uint256)` event and emit it for the frontend `All Stakings` tab to display)
 
-    function stake() public payable {
-        require(block.timestamp <= deadline, "Staking is over, the deadline is reached");
+    function stake() public payable notCompleted {
+        require(timeLeft() != 0, "Staking is over, the deadline is reached");
 
         require(msg.value > 0, "You have to send some eth");
 
@@ -43,7 +43,7 @@ contract Staker {
     // If the deadline has passed and the threshold is met, it should call `exampleExternalContract.complete{value: address(this).balance}()`
 
     function execute() external notCompleted {
-        require(block.timestamp > deadline, "You cannot execute yet");
+        require(timeLeft() == 0, "You cannot execute yet");
 
         require(!openForWithDraw, "Staking was NOT successful, threshold was NOT reached");
 
@@ -77,7 +77,7 @@ contract Staker {
 
     // Add a `timeLeft()` view function that returns the time left before the deadline for the frontend
 
-    function timeLeft() external view returns(uint) {
+    function timeLeft() public view returns(uint) {
         if (block.timestamp < deadline) {
             return deadline - block.timestamp;
         }
