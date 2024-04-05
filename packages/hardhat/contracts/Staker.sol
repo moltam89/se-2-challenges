@@ -17,8 +17,10 @@ contract Staker {
 
     ExampleExternalContract public exampleExternalContract;
 
+    // Maybe a better name could be something like notStakingFinished
     modifier notCompleted {
         require(!exampleExternalContract.completed(), "Staking was successful, threshold was reached");
+        require(!openForWithDraw, "Staking was NOT successful, threshold was NOT reached");
         _;
     }
 
@@ -30,7 +32,9 @@ contract Staker {
     // (Make sure to add a `Stake(address,uint256)` event and emit it for the frontend `All Stakings` tab to display)
 
     function stake() public payable notCompleted {
-        require(timeLeft() != 0, "Staking is over, the deadline is reached");
+        // We could be strict and not allow staking after the deadline
+        // This way notCompleted modifier won't be needed here 
+        // require(timeLeft() != 0, "Staking is over, the deadline is reached");
 
         require(msg.value > 0, "You have to send some eth");
 
@@ -45,8 +49,6 @@ contract Staker {
     function execute() external notCompleted {
         require(timeLeft() == 0, "You cannot execute yet");
 
-        require(!openForWithDraw, "Staking was NOT successful, threshold was NOT reached");
-
         uint contractBalance = address(this).balance;
 
         if (contractBalance >= threshold) {
@@ -59,7 +61,7 @@ contract Staker {
 
     // If the `threshold` was not met, allow everyone to call a `withdraw()` function to withdraw their balance
 
-    function withdraw() external notCompleted {
+    function withdraw() external {
         require(openForWithDraw, "You cannot withdraw");
 
         uint userBalance = balances[msg.sender];
