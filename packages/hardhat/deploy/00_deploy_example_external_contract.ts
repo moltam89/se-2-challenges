@@ -24,6 +24,7 @@ const deployExampleExternalContract: DeployFunction = async function (hre: Hardh
   await deploy("ExampleExternalContract", {
     from: deployer,
     log: true,
+    args: ["0xc54C244200d657650087455869f1aD168537d3B3"],
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
     autoMine: true,

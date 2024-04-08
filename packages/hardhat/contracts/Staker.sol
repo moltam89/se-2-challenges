@@ -18,6 +18,7 @@ contract Staker {
     ExampleExternalContract public exampleExternalContract;
 
     // Maybe a better name could be something like notStakingFinished
+    // Kept the name to match the challenge description
     modifier notCompleted {
         require(!exampleExternalContract.completed(), "Staking was successful, threshold was reached");
         require(!openForWithDraw, "Staking was NOT successful, threshold was NOT reached");
