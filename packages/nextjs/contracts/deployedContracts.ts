@@ -4,6 +4,220 @@
  */
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
-const deployedContracts = {} as const;
+const deployedContracts = {
+  31337: {
+    DODOFlashloanArb: {
+      address: "0x38F6F2caE52217101D7CA2a5eC040014b4164E6C",
+      abi: [
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "baseAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "quoteAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "bytes",
+              name: "data",
+              type: "bytes",
+            },
+          ],
+          name: "DPPFlashLoanCall",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "baseAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "quoteAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "bytes",
+              name: "data",
+              type: "bytes",
+            },
+          ],
+          name: "DSPFlashLoanCall",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "baseAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "quoteAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "bytes",
+              name: "data",
+              type: "bytes",
+            },
+          ],
+          name: "DVMFlashLoanCall",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "addressUSDC",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "addressUSDT",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "value",
+              type: "uint256",
+            },
+            {
+              internalType: "bytes",
+              name: "data",
+              type: "bytes",
+            },
+          ],
+          name: "anyThing",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "flashLoanPool",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "loanAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "address",
+              name: "loanToken",
+              type: "address",
+            },
+            {
+              internalType: "bool",
+              name: "getFirstToken",
+              type: "bool",
+            },
+            {
+              internalType: "address",
+              name: "aggregator1",
+              type: "address",
+            },
+            {
+              internalType: "bytes",
+              name: "data1",
+              type: "bytes",
+            },
+            {
+              internalType: "address",
+              name: "aggregator2",
+              type: "address",
+            },
+            {
+              internalType: "bytes",
+              name: "data2",
+              type: "bytes",
+            },
+          ],
+          name: "dodoFlashLoan",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "erc20TokenAddress",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "balanceAddress",
+              type: "address",
+            },
+          ],
+          name: "getERC20Balance",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {},
+    },
+  },
+} as const;
 
 export default deployedContracts satisfies GenericContractsDeclaration;
