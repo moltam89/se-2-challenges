@@ -6,6 +6,167 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
   31337: {
+    DODOFlashloanArb: {
+      address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      abi: [
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "baseAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "quoteAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "bytes",
+              name: "data",
+              type: "bytes",
+            },
+          ],
+          name: "DPPFlashLoanCall",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "baseAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "quoteAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "bytes",
+              name: "data",
+              type: "bytes",
+            },
+          ],
+          name: "DSPFlashLoanCall",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "baseAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "quoteAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "bytes",
+              name: "data",
+              type: "bytes",
+            },
+          ],
+          name: "DVMFlashLoanCall",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "value",
+              type: "uint256",
+            },
+            {
+              internalType: "bytes",
+              name: "data",
+              type: "bytes",
+            },
+          ],
+          name: "anyThing",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "flashLoanPool",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "loanAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "address",
+              name: "loanToken",
+              type: "address",
+            },
+            {
+              internalType: "bool",
+              name: "getFirstToken",
+              type: "bool",
+            },
+            {
+              internalType: "address",
+              name: "aggregator1",
+              type: "address",
+            },
+            {
+              internalType: "bytes",
+              name: "data1",
+              type: "bytes",
+            },
+            {
+              internalType: "address",
+              name: "aggregator2",
+              type: "address",
+            },
+            {
+              internalType: "bytes",
+              name: "data2",
+              type: "bytes",
+            },
+          ],
+          name: "dodoFlashLoan",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {},
+    },
     YourContract: {
       address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
       abi: [
