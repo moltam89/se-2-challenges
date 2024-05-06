@@ -6,6 +6,7 @@ import { ethers } from "hardhat";
 import { DODOFlashloanArb } from "../typechain-types/contracts/DODOFlashloanArb";
 import { expect } from "chai";
 
+
 describe("🚩 Challenge N: Description", function () {
   // Change to name and type of your contract
   let dodoFlashloanArb: DODOFlashloanArb;
@@ -23,6 +24,10 @@ describe("🚩 Challenge N: Description", function () {
     }
 
     it("Should deploy the contract", async function () {
+      // Get the current block number
+      const blockNumber = await ethers.provider.getBlockNumber();
+      console.log("Current block number:", blockNumber);
+
       //const [owner] = await ethers.getSigners();
       const dodoFlashloanArbFactory = await ethers.getContractFactory(contractArtifact);
       dodoFlashloanArb = (await dodoFlashloanArbFactory.deploy()) as DODOFlashloanArb;
