@@ -55,6 +55,18 @@ contract DODOFlashloanArb {
 
         getERC20Balance(addressUSDT, flashLoanPool);
 
+        console.log("flashLoanPool", flashLoanPool);
+        console.log("loanAmount", loanAmount);
+        console.log("loanToken", loanToken);
+        console.log("aggregator1", aggregator1);
+        console.logBytes(data1);
+        console.log("aggregator2", aggregator2);
+        console.logBytes(data2);
+        
+        console.log("brrrr");
+
+        console.logBytes(data);
+
         if (getFirstToken) {
             IDODO(flashLoanPool).flashLoan(loanAmount, 0, address(this), data);
         } else {
@@ -111,6 +123,8 @@ contract DODOFlashloanArb {
                 (address, uint256, address, address, bytes, address, bytes)
             );
 
+        getERC20Balance(addressUSDT, flashLoanPool);
+
         require(
             sender == address(this) && msg.sender == flashLoanPool,
             "HANDLE_FLASH_NENIED"
@@ -145,7 +159,7 @@ contract DODOFlashloanArb {
     function getERC20Balance(address erc20TokenAddress, address balanceAddress) public view returns (uint256) {
         uint256 balance = IERC20(erc20TokenAddress).balanceOf(balanceAddress);
 
-        console.log("erc20TokenAddress:", erc20TokenAddress, "balance:", balanceAddress);
+        console.log( erc20TokenAddress, balanceAddress, balance);
 
         return balance;
     }
