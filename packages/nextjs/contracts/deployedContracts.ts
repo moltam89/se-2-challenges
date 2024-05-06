@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     DODOFlashloanArb: {
-      address: "0x1bEfE2d8417e22Da2E0432560ef9B2aB68Ab75Ad",
+      address: "0x04f1A5b9BD82a5020C49975ceAd160E98d8B77Af",
       abi: [
         {
           inputs: [
