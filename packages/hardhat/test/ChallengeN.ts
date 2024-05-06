@@ -6,12 +6,16 @@ import { ethers } from "hardhat";
 import { DODOFlashloanArb } from "../typechain-types/contracts/DODOFlashloanArb";
 import { expect } from "chai";
 
+const addressUSDT = "0xdAC17F958D2ee523a2206206994597C13D831ec7"; 
+const addressUSDC = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"; 
+
+const addressDODOPool = "0xc9f93163c99695c6526b799ebca2207fdf7d61ad";
 
 describe("🚩 Challenge N: Description", function () {
   // Change to name and type of your contract
   let dodoFlashloanArb: DODOFlashloanArb;
 
-  describe("Deployment", function () {
+  describe("DODOFlashloanArb", function () {
     const contractAddress = process.env.CONTRACT_ADDRESS;
 
     // Don't change contractArtifact creation
@@ -23,16 +27,13 @@ describe("🚩 Challenge N: Description", function () {
       contractArtifact = "contracts/DODOFlashloanArb.sol:DODOFlashloanArb";
     }
 
-    it("Should deploy the contract", async function () {
+    it("DODO pool has enough founds ", async function () {
       // Get the current block number
       const blockNumber = await ethers.provider.getBlockNumber();
       console.log("Current block number:", blockNumber);
 
-      const usdtContractAddress = "0xdac17f958d2ee523a2206206994597c13d831ec7"; // USDT contract address
-      const address = "0xc9f93163c99695c6526b799ebca2207fdf7d61ad"; // Replace with the address you want to check
-
-      const usdtContract = await ethers.getContractAt("IERC20", usdtContractAddress);
-      const balance = await usdtContract.balanceOf(address);
+      const usdtContract = await ethers.getContractAt("IERC20", addressUSDT);
+      const balance = await usdtContract.balanceOf(addressDODOPool);
 
       console.log("USDT balance:", balance.toString());
 
@@ -40,20 +41,6 @@ describe("🚩 Challenge N: Description", function () {
       const dodoFlashloanArbFactory = await ethers.getContractFactory(contractArtifact);
       dodoFlashloanArb = (await dodoFlashloanArbFactory.deploy()) as DODOFlashloanArb;
       //console.log("\t", " 🛰  Contract deployed on", await yourContract.getAddress());
-    });
-  });
-
-  // Test group example
-  describe("Initialization and change of greeting", function () {
-    it("Should have the right message on deploy", async function () {
-      //expect(await yourContract.greeting()).to.equal("Building Unstoppable Apps!!!");
-    });
-
-    it("Should allow setting a new message", async function () {
-      //const newGreeting = "Learn Scaffold-ETH 2! :)";
-
-      //await yourContract.setGreeting(newGreeting);
-      //expect(await yourContract.greeting()).to.equal(newGreeting);
     });
   });
 });
