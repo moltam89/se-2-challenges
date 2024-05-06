@@ -28,6 +28,14 @@ describe("🚩 Challenge N: Description", function () {
       const blockNumber = await ethers.provider.getBlockNumber();
       console.log("Current block number:", blockNumber);
 
+      const usdtContractAddress = "0xdac17f958d2ee523a2206206994597c13d831ec7"; // USDT contract address
+      const address = "0xc9f93163c99695c6526b799ebca2207fdf7d61ad"; // Replace with the address you want to check
+
+      const usdtContract = await ethers.getContractAt("IERC20", usdtContractAddress);
+      const balance = await usdtContract.balanceOf(address);
+
+      console.log("USDT balance:", balance.toString());
+
       //const [owner] = await ethers.getSigners();
       const dodoFlashloanArbFactory = await ethers.getContractFactory(contractArtifact);
       dodoFlashloanArb = (await dodoFlashloanArbFactory.deploy()) as DODOFlashloanArb;

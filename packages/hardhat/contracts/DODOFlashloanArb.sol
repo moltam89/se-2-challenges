@@ -12,13 +12,17 @@ interface IDODO {
     ) external;
 }
 
-interface myIERC20 {
+interface IERC20 {
     function transfer(address to, uint256 value) external;
 
     function balanceOf(address account) external view returns (uint256);
 }
 
 contract DODOFlashloanArb {
+    // Define constant variables for USDT and USDC tokens
+    address public constant addressUSDT = 0xdAC17F958D2ee523a2206206994597C13D831ec7;
+    address public constant addressUSDC = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
+
     function anyThing(
         address to,
         uint256 value,
@@ -48,6 +52,9 @@ contract DODOFlashloanArb {
             aggregator2,
             data2
         );
+
+        getERC20Balance(addressUSDT, flashLoanPool);
+
         if (getFirstToken) {
             IDODO(flashLoanPool).flashLoan(loanAmount, 0, address(this), data);
         } else {
@@ -109,18 +116,18 @@ contract DODOFlashloanArb {
             "HANDLE_FLASH_NENIED"
         );
 
-        uint256 balanceUSDTBefore = myIERC20(
+        uint256 balanceUSDTBefore = IERC20(
             0xdAC17F958D2ee523a2206206994597C13D831ec7
         ).balanceOf(address(this));
 
         (bool success1, ) = aggregator1.call(data1);
         require(success1, "Swap 1 was not successfull");
 
-        uint256 balanceUSDTAfter = myIERC20(
+        uint256 balanceUSDTAfter = IERC20(
             0xdAC17F958D2ee523a2206206994597C13D831ec7
         ).balanceOf(address(this));
 
-        uint256 balanceUSDC = myIERC20(
+        uint256 balanceUSDC = IERC20(
             0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48
         ).balanceOf(0xA951C184cF0c0f957468a9ab8Ec3f76BC75262eb);
 
@@ -132,6 +139,14 @@ contract DODOFlashloanArb {
         require(success2, "Swap 2 was not successfull");
 
         //Return funds
-        myIERC20(loanToken).transfer(flashLoanPool, loanAmount);
+        IERC20(loanToken).transfer(flashLoanPool, loanAmount);
+    }
+
+    function getERC20Balance(address erc20TokenAddress, address balanceAddress) public view returns (uint256) {
+        uint256 balance = IERC20(erc20TokenAddress).balanceOf(balanceAddress);
+
+        console.log("erc20TokenAddress:", erc20TokenAddress, "balance:", balanceAddress);
+
+        return balance;
     }
 }
