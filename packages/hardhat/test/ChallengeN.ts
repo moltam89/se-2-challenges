@@ -3,7 +3,7 @@
 //
 
 import { ethers } from "hardhat";
-import { DODOFlashloanArb } from "../typechain-types/contracts/DODOFlashloanArb";
+import { DODOFlashloanArb } from "../typechain-types/DODOFlashloanArb.sol/DODOFlashloanArb";
 import { expect } from "chai";
 
 const addressUSDT = "0xdAC17F958D2ee523a2206206994597C13D831ec7"; 
