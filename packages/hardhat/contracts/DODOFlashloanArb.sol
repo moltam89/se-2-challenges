@@ -53,20 +53,6 @@ contract DODOFlashloanArb {
             data2
         );
 
-        getERC20Balance(addressUSDT, flashLoanPool);
-
-        console.log("flashLoanPool", flashLoanPool);
-        console.log("loanAmount", loanAmount);
-        console.log("loanToken", loanToken);
-        console.log("aggregator1", aggregator1);
-        console.logBytes(data1);
-        console.log("aggregator2", aggregator2);
-        console.logBytes(data2);
-        
-        console.log("brrrr");
-
-        console.logBytes(data);
-
         if (getFirstToken) {
             IDODO(flashLoanPool).flashLoan(loanAmount, 0, address(this), data);
         } else {
@@ -123,31 +109,17 @@ contract DODOFlashloanArb {
                 (address, uint256, address, address, bytes, address, bytes)
             );
 
-        getERC20Balance(addressUSDT, flashLoanPool);
+        
 
         require(
             sender == address(this) && msg.sender == flashLoanPool,
             "HANDLE_FLASH_NENIED"
         );
 
-        uint256 balanceUSDTBefore = IERC20(
-            0xdAC17F958D2ee523a2206206994597C13D831ec7
-        ).balanceOf(address(this));
+        getERC20Balance(addressUSDT, flashLoanPool);
 
         (bool success1, ) = aggregator1.call(data1);
         require(success1, "Swap 1 was not successfull");
-
-        uint256 balanceUSDTAfter = IERC20(
-            0xdAC17F958D2ee523a2206206994597C13D831ec7
-        ).balanceOf(address(this));
-
-        uint256 balanceUSDC = IERC20(
-            0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48
-        ).balanceOf(0xA951C184cF0c0f957468a9ab8Ec3f76BC75262eb);
-
-        console.log("balanceUSDTBefore", balanceUSDTBefore);
-        console.log("balanceUSDTAfter", balanceUSDTAfter);
-        console.log("balanceUSDC", balanceUSDC);
 
         (bool success2, ) = aggregator2.call(data2);
         require(success2, "Swap 2 was not successfull");

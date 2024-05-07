@@ -49,10 +49,9 @@ describe("🚩 Challenge N: Description", function () {
       const blockNumber = await ethers.provider.getBlockNumber();
       console.log("Current block number:", blockNumber);
 
-      const usdtContract = await ethers.getContractAt("IERC20", addressUSDT);
-      const balance = await usdtContract.balanceOf(addressDODOPool);
-
-      console.log("USDT balance:", balance.toString());
+      //const usdtContract = await ethers.getContractAt("IERC20", addressUSDT);
+      //const balance = await usdtContract.balanceOf(addressDODOPool);
+      //console.log("USDT balance:", balance.toString());
 
       //const [owner] = await ethers.getSigners();
       const dodoFlashloanArbFactory = await ethers.getContractFactory(contractArtifact);
@@ -61,12 +60,10 @@ describe("🚩 Challenge N: Description", function () {
 
       const addressDODOFlashloanArb = await dodoFlashloanArb.getAddress();
       
-      await dodoFlashloanArb.getERC20Balance(addressUSDT, addressDODOPool);
+      //await dodoFlashloanArb.getERC20Balance(addressUSDT, addressDODOPool);
 
-      console.log("addressDODOFlashloanArb", addressDODOFlashloanArb);
-
-      console.log(replaceCalldataAddress(calldataSwap1, addressOriginalDODOFlashloanArb, addressDODOFlashloanArb))
-      console.log(replaceCalldataAddress(calldataSwap2, addressOriginalDODOFlashloanArb, addressDODOFlashloanArb))
+      await dodoFlashloanArb.anyThing(addressUSDT, 0, oneInchApproveData);
+      await dodoFlashloanArb.anyThing(addressUSDC, 0, oneInchApproveData);
 
 
       await dodoFlashloanArb.dodoFlashLoan(
