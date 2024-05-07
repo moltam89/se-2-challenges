@@ -69,10 +69,10 @@ describe("🚩 Challenge N: Description", function () {
       console.log(replaceCalldataAddress(calldataSwap2, addressOriginalDODOFlashloanArb, addressDODOFlashloanArb))
 
 
-      await dodoFlashloanArb.dodoFlashLoan.populateTransaction(
+      await dodoFlashloanArb.dodoFlashLoan(
         addressDODOPool,
-        addressUSDT,
         flashLoanAmountUSDT,
+        addressUSDT,
         false,
         addressOneInchAggregator,
         replaceCalldataAddress(calldataSwap1, addressOriginalDODOFlashloanArb, addressDODOFlashloanArb),
