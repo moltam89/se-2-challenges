@@ -19,7 +19,6 @@ interface IERC20 {
 }
 
 contract DODOFlashloanArb {
-    // Define constant variables for USDT and USDC tokens
     address public constant addressUSDT = 0xdAC17F958D2ee523a2206206994597C13D831ec7;
     address public constant addressUSDC = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
 
@@ -116,10 +115,14 @@ contract DODOFlashloanArb {
             "HANDLE_FLASH_NENIED"
         );
 
-        getERC20Balance(addressUSDT, flashLoanPool);
+        console.log("block.number", block.number);
 
         (bool success1, ) = aggregator1.call(data1);
         require(success1, "Swap 1 was not successfull");
+
+        getERC20Balance(addressUSDT, flashLoanPool);
+        getERC20Balance(addressUSDT, address(this));
+        getERC20Balance(addressUSDC, address(this));
 
         (bool success2, ) = aggregator2.call(data2);
         require(success2, "Swap 2 was not successfull");
