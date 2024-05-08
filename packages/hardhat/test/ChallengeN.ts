@@ -15,6 +15,7 @@ import { ethers } from "hardhat";
 
 import { DODOFlashloanArb } from "../typechain-types/DODOFlashloanArb.sol/DODOFlashloanArb";
 import { expect } from "chai";
+import { loadFixture } from "@nomicfoundation/hardhat-toolbox/network-helpers";
 
 const addressUSDT = "0xdAC17F958D2ee523a2206206994597C13D831ec7"; 
 const addressUSDC = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"; 
@@ -38,8 +39,6 @@ const oneInchApproveData = "0x095ea7b30000000000000000000000001111111254eeb25477
 const flashLoanAmountUSDT = "400000000000"; // 400.000 USDT
 
 describe("🚩 Challenge Arbitrage", function () {
-  let dodoFlashloanArb: DODOFlashloanArb;
-
   describe("Executing flahsloan aritrage, mimicing https://etherscan.io/address/0xa951c184cf0c0f957468a9ab8ec3f76bc75262eb ", function () {
     const contractAddress = process.env.CONTRACT_ADDRESS;
 
@@ -50,6 +49,14 @@ describe("🚩 Challenge Arbitrage", function () {
       contractArtifact = `contracts/download-${contractAddress}.sol:DODOFlashloanArb`;
     } else {
       contractArtifact = "contracts/DODOFlashloanArb.sol:DODOFlashloanArb";
+    }
+
+    async function deployDODOFlashloanArbFixture() {
+      const dodoFlashloanArbFactory = await ethers.getContractFactory(contractArtifact);
+      const dodoFlashloanArb = (await dodoFlashloanArbFactory.deploy()) as DODOFlashloanArb;
+      const addressDODOFlashloanArb = await dodoFlashloanArb.getAddress();
+
+      return { dodoFlashloanArb, addressDODOFlashloanArb };
     }
 
     it("We are back in time around block number 18119016 where this arbitrage opportunity happened", async function () {
@@ -65,20 +72,14 @@ describe("🚩 Challenge Arbitrage", function () {
     });
 
     it("We are back in time before block number 18119016 where this arbitrage opportunity happened", async function () {
-      const dodoFlashloanArbFactory = await ethers.getContractFactory(contractArtifact);
-      dodoFlashloanArb = (await dodoFlashloanArbFactory.deploy()) as DODOFlashloanArb;
-
-      const addressDODOFlashloanArb = await dodoFlashloanArb.getAddress();
+      const {dodoFlashloanArb} = await loadFixture(deployDODOFlashloanArbFixture)
 
       await dodoFlashloanArb.anyThing(addressUSDT, 0, oneInchApproveData);
       await dodoFlashloanArb.anyThing(addressUSDC, 0, oneInchApproveData);
     });
 
       it("We are back in time before block number 18119016 where this arbitrage opportunity happened", async function () {
-        const dodoFlashloanArbFactory = await ethers.getContractFactory(contractArtifact);
-        dodoFlashloanArb = (await dodoFlashloanArbFactory.deploy()) as DODOFlashloanArb;
-  
-        const addressDODOFlashloanArb = await dodoFlashloanArb.getAddress();
+        const {dodoFlashloanArb, addressDODOFlashloanArb} = await loadFixture(deployDODOFlashloanArbFixture)
   
         await dodoFlashloanArb.anyThing(addressUSDT, 0, oneInchApproveData);
         await dodoFlashloanArb.anyThing(addressUSDC, 0, oneInchApproveData);
