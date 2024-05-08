@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     DODOFlashloanArb: {
-      address: "0x38F6F2caE52217101D7CA2a5eC040014b4164E6C",
+      address: "0x837a41023CF81234f89F956C94D676918b4791c1",
       abi: [
         {
           inputs: [
@@ -202,8 +202,13 @@ const deployedContracts = {
               name: "balanceAddress",
               type: "address",
             },
+            {
+              internalType: "string",
+              name: "state",
+              type: "string",
+            },
           ],
-          name: "getERC20Balance",
+          name: "getAndLogERC20Balance",
           outputs: [
             {
               internalType: "uint256",
