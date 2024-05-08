@@ -151,7 +151,7 @@ contract DODOFlashloanArb {
     function getAndLogERC20Balance(address erc20TokenAddress, address balanceAddress, string memory state) public view returns (uint256) {
         uint256 balance = IERC20(erc20TokenAddress).balanceOf(balanceAddress);
 
-        console.log(state, balance);
+        console.log("   hardhat/console.sol", state, balance);
 
         return balance;
     }
