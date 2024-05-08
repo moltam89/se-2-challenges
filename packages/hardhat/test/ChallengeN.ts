@@ -12,8 +12,8 @@
 // Tx cost 0.00758535552 * $1,593.01 / ETH = $12.07
 
 import { ethers } from "hardhat";
+
 import { DODOFlashloanArb } from "../typechain-types/DODOFlashloanArb.sol/DODOFlashloanArb";
-import { IERC20 } from "../typechain-types/DODOFlashloanArb.sol/IERC20";
 import { expect } from "chai";
 
 const addressUSDT = "0xdAC17F958D2ee523a2206206994597C13D831ec7"; 
