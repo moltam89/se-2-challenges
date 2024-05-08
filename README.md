@@ -1,77 +1,51 @@
-# 🚩 Challenge {challengeNum}: {challengeEmoji} {challengeTitle}
 
-{challengeHeroImage}
+# 🚩 Challenge Arbitrage (Draft)
 
-A {challengeDescription}.
+## Quickstart
+1. yarn install
+2. yarn chain
+3. yarn test
 
-🌟 The final deliverable is an app that {challengeDeliverable}.
-Deploy your contracts to a testnet then build and upload your app to a public web server. Submit the url on [SpeedRunEthereum.com](https://speedrunethereum.com)!
+## Flashloan arbitrage with DODO and 1inch
+Mimicking arbitrage transaction: https://etherscan.io/tx/0x60de3cd915a47882dff0d918694d4dcad133807e223e34d5c442b3a89f3e7a34
+EigenPhi:
+https://eigenphi.io/mev/eigentx/multi/0x60de3cd915a47882dff0d918694d4dcad133807e223e34d5c442b3a89f3e7a34
+Tenderly:
+https://dashboard.tenderly.co/tx/mainnet/0x60de3cd915a47882dff0d918694d4dcad133807e223e34d5c442b3a89f3e7a34
 
-💬 Meet other builders working on this challenge and get help in the {challengeTelegramLink}
+This transaction borrowed 400.000 USDT from DODO, swapped it to USDC with 1inch, then swapped back to 400.021 USDT, paying 12USDT in transaction fees.
 
----
+### DODOFlashloanArb.sol
+**function  dodoFlashLoan**
+1. Execute DODO's **flashLoan** function
+2. Call **1Inch** with swap1 calldata
+3. Call **1Inch** with swap2 calldata 
+4. Transfer the loan back to DODO
 
-## Checkpoint 0: 📦 Environment 📚
+### ChallengeN.ts
+Script for mimicking the transaction (hardhat points to the original tx's block number)
 
-Before you begin, you need to install the following tools:
+1. Deploy DODOFlashloanArb
+2. Test the block number
+3. Test DODO Pool's USDT balance
+4. Test allowance for 1Inch so it can swap the tokens
+5. Test for querying 1inch for USDT -> USDC swap
+6. Test if arbitrage results in 21 USDT left in the contract
 
-- [Node (v18 LTS)](https://nodejs.org/en/download/)
-- Yarn ([v1](https://classic.yarnpkg.com/en/docs/install/) or [v2+](https://yarnpkg.com/getting-started/install))
-- [Git](https://git-scm.com/downloads)
+#### DODO
+[DODO flash loans](https://docs.dodoex.io/en/developer/contracts/dodo-v1-v2/guides/flash-loan)  have no fees which makes it ideal for arbitrage.
+This [USDT/DAI pool](https://etherscan.io/address/0x3058ef90929cb8180174d74c507176cca6835d73) has more than 1.000.000 USDT/DAI we can borrow.
 
-Then download the challenge to your computer and install dependencies by running:
+#### 1inch
+[1inch API](https://docs.1inch.io/docs/aggregation-protocol/api/swagger/) can be used to query token swaps, the response contains the calldata which can be sent to the 1inch aggregator contract
 
-```sh
-git clone https://github.com/scaffold-eth/se-2-challenges.git {challengeName}
-cd {challengeName}
-git checkout {challengeName}
-yarn install
-```
+#### Visualisation from EigenPhi
 
-> in the same terminal, start your local network (a blockchain emulator in your computer):
+ - **Step 0** borrow from DODO pool : +400.000 USDT
+ - **Step 1-6** execute 1inch swap1: -400.000 USDT, + 399.867 USDC
+  - **Step 7-14** execute 1inch swap2: -399867 USDC, + 400.021 USDT
+  - **Step 15** pay back the loan: -400.000 USDT
+![eigentx-0x60de3cd915a47882dff0d918694d4dcad133807e223e34d5c442b3a89f3e7a34](https://github.com/moltam89/se-2-challenges/assets/1397179/52e76058-1a92-485f-881c-e99d1f1cab68)
 
-```sh
-yarn chain
-```
-
-> in a second terminal window, 🛰 deploy your contract (locally):
-
-```sh
-cd <challenge_folder_name>
-yarn deploy
-```
-
-> in a third terminal window, start your 📱 frontend:
-
-```sh
-cd <challenge_folder_name>
-yarn start
-```
-
-📱 Open http://localhost:3000 to see the app.
-
-> 👩‍💻 Rerun `yarn deploy --reset` whenever you want to deploy new contracts to the frontend, update your current contracts with changes, or re-deploy it to get a fresh contract address.
-
-🔏 Now you are ready to edit your smart contract `{mainContractName.sol}` in `packages/hardhat/contracts`
-
----
-
-_Other commonly used Checkpoints (check one Challenge and adapt the texts for your own):_
-
-## Checkpoint {num}: 💾 Deploy your contract! 🛰
-
-## Checkpoint {num}: 🚢 Ship your frontend! 🚁
-
-## Checkpoint {num}: 📜 Contract Verification
-
----
-
-_Create all the required Checkpoints for the Challenge, can also add Side Quests you think may be interesting to complete. Check other Challenges for inspiration._
-
-### ⚔️ Side Quests
-
-_To finish your README, can add these links_
-
-> 🏃 Head to your next challenge [here](https://speedrunethereum.com).
-
-> 💬 Problems, questions, comments on the stack? Post them to the [🏗 scaffold-eth developers chat](https://t.me/joinchat/F7nCRK3kI93PoCOk)
+#### Notes:
+Finding arbitrage opportunities and executing them are not easy. Usually swapping large amount of USDT/USDT (or any tokens) result in a small deficit. Even if there is an opportunity, arbitrage bots are continuously monitoring the network, trying to be the fastest to make profit. A possible way to not loose money on failed transactions is to use https://docs.flashbots.net/. 
