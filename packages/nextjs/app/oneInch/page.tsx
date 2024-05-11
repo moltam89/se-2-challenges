@@ -1,3 +1,4 @@
+import { Swap } from "./_components/swap";
 import type { NextPage } from "next";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
@@ -9,6 +10,7 @@ export const metadata = getMetadata({
 const OneInch: NextPage = () => {
   return (
     <>
+      <Swap />
       <div className="text-center mt-8 bg-secondary p-10">
         <h1 className="text-4xl my-0">1inch</h1>
         <p className="text-neutral">
