@@ -2591,6 +2591,7 @@ __metadata:
     "@uniswap/v2-sdk": ^3.0.1
     abitype: ^1.0.2
     autoprefixer: ^10.4.12
+    axios: ^1.6.8
     blo: ^1.0.1
     burner-connector: ^0.0.3
     daisyui: 4.5.0
