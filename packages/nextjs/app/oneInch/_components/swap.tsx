@@ -44,7 +44,17 @@ export const Swap = () => {
           value={amount}
           onChange={e => setAmount(e.target.value)}
         />
-        <button className="btn btn-primary uppercase" onClick={() => getOneInchSwapCalldata("0xdac17f958d2ee523a2206206994597c13d831ec7", "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", 1000000000n, "0x1D47202c87939f3263A5469C9679169F6E2b7F57")}>
+        <button
+          className="btn btn-primary uppercase"
+          onClick={() =>
+            getOneInchSwapCalldata(
+              "0xdac17f958d2ee523a2206206994597c13d831ec7",
+              "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+              1000000000n,
+              "0x1D47202c87939f3263A5469C9679169F6E2b7F57",
+            )
+          }
+        >
           swap
         </button>
       </div>
@@ -53,18 +63,18 @@ export const Swap = () => {
 };
 
 type OneInchTransaction = {
-    from: string;
-    to: string;
-    data: string;
-    value: string;
-    gas: number;
-    gasPrice: string;
-  };
-  
-  type OneInchResponse = {
-    toAmount: string;
-    tx: OneInchTransaction;
-  };
+  from: string;
+  to: string;
+  data: string;
+  value: string;
+  gas: number;
+  gasPrice: string;
+};
+
+type OneInchResponse = {
+  toAmount: string;
+  tx: OneInchTransaction;
+};
 
 async function getOneInchSwapCalldata(
   fromTokenAddress: string,
@@ -96,10 +106,10 @@ async function getOneInchSwapCalldata(
 
   const oneInchApiKey = "6eM1F3F94is7N4aXHLJ3WMI4UErk7iqH"; // You can get your own at https://portal.1inch.dev/
 
-    console.log("URL", URL);
+  console.log("URL", URL);
 
   // https://corsproxy.io/ : A fast & simple way to fix CORS Errors
-  const corsProxyURL = 'https://corsproxy.io/?' + encodeURIComponent(URL);
+  const corsProxyURL = "https://corsproxy.io/?" + encodeURIComponent(URL);
 
   const response = await axios.get(corsProxyURL, {
     headers: {
