@@ -13,6 +13,7 @@ export const Swap = () => {
   const [fromTokenSymbol, setFromTokenSymbol] = useState("");
   const [toTokenSymbol, setToTokenSymbol] = useState("");
   const [amount, setAmount] = useState("");
+  const [oneInchResponse, setOneInchResponse] = useState<OneInchResponse | null>(null);
 
   return (
     <div className="flex items-center flex-col flex-grow w-full px-4 gap-12">
@@ -46,18 +47,29 @@ export const Swap = () => {
         />
         <button
           className="btn btn-primary uppercase"
-          onClick={() =>
-            getOneInchSwapCalldata(
+          onClick={async () => {
+            const response = await getOneInchSwapCalldata(
               "0xdac17f958d2ee523a2206206994597c13d831ec7",
               "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
               1000000000n,
               "0x1D47202c87939f3263A5469C9679169F6E2b7F57",
-            )
-          }
+            );
+            setOneInchResponse(response);
+          }}
         >
           swap
         </button>
+        {oneInchResponse && <OneInchResponseComponent response={oneInchResponse} />}
       </div>
+    </div>
+  );
+};
+
+export const OneInchResponseComponent = ({ response }: { response: OneInchResponse }) => {
+  return (
+    <div className={"flex flex-col items-center"}>
+      <div>To: {response.tx.to}</div>
+      <div>Data: {response.tx.data}</div>
     </div>
   );
 };
