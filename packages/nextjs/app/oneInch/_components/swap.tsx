@@ -2,6 +2,12 @@
 
 import { useState } from "react";
 
+type Token = {
+    symbol: string;
+    address: string;
+    decimals: number;
+  };
+
 export const Swap = () => {
     const [fromTokenSymbol, setFromTokenSymbol] = useState("");
     const [toTokenSymbol, setToTokenSymbol] = useState("");
@@ -37,10 +43,14 @@ export const Swap = () => {
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                 />
-                <button className="btn btn-primary" onClick={() => stakeETH()}>
-                    Swap
+                <button className="btn btn-primary uppercase" onClick={() => stakeETH()}>
+                    swap
                 </button>
             </div>
         </div>
     );
+};
+
+const stakeETH = () => {
+    console.log("Swap");
 };
