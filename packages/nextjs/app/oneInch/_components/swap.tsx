@@ -19,7 +19,7 @@ export const Swap = () => {
     <div className="flex items-center flex-col flex-grow w-full px-4 gap-12">
       <div
         className={
-          "flex flex-col items-center space-y-8 bg-base-100 shadow-lg shadow-secondary border-8 border-secondary rounded-xl p-6 w-full max-w-lg mt-24"
+          "flex flex-col items-center space-y-8 bg-base-100 shadow-lg shadow-secondary border-8 border-secondary rounded-xl p-6 w-full max-w-lg mt-24 overflow-auto"
         }
       >
         <div className="flex justify-between">
@@ -67,9 +67,13 @@ export const Swap = () => {
 
 export const OneInchResponseComponent = ({ response }: { response: OneInchResponse }) => {
   return (
-    <div className={"flex flex-col items-center"}>
-      <div>To: {response.tx.to}</div>
-      <div>Data: {response.tx.data}</div>
+    <div className={"flex flex-col items-center break-all"}>
+      <div>
+        <strong>To:</strong> {response.tx.to}
+      </div>
+      <div className={"pt-4"}>
+        <strong>Calldata:</strong> {response.tx.data}
+      </div>
     </div>
   );
 };
