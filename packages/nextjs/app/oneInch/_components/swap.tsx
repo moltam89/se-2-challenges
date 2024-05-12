@@ -5,12 +5,12 @@ import { tokens } from "./tokens";
 import axios from "axios";
 
 type Token = {
-    symbol: string;
-    address: string;
-    decimals: number;
-    img: string;
-    network: number;
-  };
+  symbol: string;
+  address: string;
+  decimals: number;
+  img: string;
+  network: number;
+};
 
 export const Swap = () => {
   const [fromToken, setFromToken] = useState<Token | undefined>(undefined);
@@ -34,7 +34,7 @@ export const Swap = () => {
             placeholder="e.g. USDT"
             className="input input-bordered w-1/3"
             onChange={e => {
-            setFromToken(tokens.find(token => token.symbol.toLowerCase() === e.target.value.toLowerCase()));
+              setFromToken(tokens.find(token => token.symbol.toLowerCase() === e.target.value.toLowerCase()));
             }}
           />
           <input
@@ -42,9 +42,18 @@ export const Swap = () => {
             placeholder="e.g. USDC"
             className="input input-bordered w-1/3"
             onChange={e => {
-                setToToken(tokens.find(token => token.symbol.toLowerCase() === e.target.value.toLowerCase()));
-              }}
+              setToToken(tokens.find(token => token.symbol.toLowerCase() === e.target.value.toLowerCase()));
+            }}
           />
+        </div>
+        <div className="flex justify-between">
+          <div className="w-1/3">
+            {fromToken && <TokenComponent token={fromToken} />}
+          </div>
+          <div className="w-1/3">
+            {toToken && <TokenComponent token={toToken} />}
+          </div>
+          
         </div>
         <input
           type="text"
@@ -68,6 +77,17 @@ export const Swap = () => {
           swap
         </button>
         {oneInchResponse && <OneInchResponseComponent response={oneInchResponse} />}
+      </div>
+    </div>
+  );
+};
+
+export const TokenComponent = ({ token }: { token: Token }) => {
+  return (
+    <div className="flex items-center">
+      <img src={token.img} alt={token.symbol} className="w-8 h-8 mr-2" />
+      <div>
+        <div className="font-bold">{token.symbol}</div>
       </div>
     </div>
   );
