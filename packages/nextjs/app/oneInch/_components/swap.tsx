@@ -15,11 +15,12 @@ type Token = {
 export const Swap = () => {
   const [fromToken, setFromToken] = useState<Token | undefined>(undefined);
   const [toToken, setToToken] = useState<Token | undefined>(undefined);
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState<number>(0);
   const [oneInchResponse, setOneInchResponse] = useState<OneInchResponse | null>(null);
 
   console.log("fromToken", fromToken);
   console.log("toToken", toToken);
+  console.log("amount", amount);
 
   return (
     <div className="flex items-center flex-col flex-grow w-full px-4 gap-12">
@@ -57,11 +58,18 @@ export const Swap = () => {
           type="text"
           placeholder="amount"
           className="input input-bordered w-1/3 text-center"
-          value={amount}
-          onChange={e => setAmount(e.target.value)}
+          onChange={e => {
+            const parsedAmount = parseInt(e.target.value);
+            if (Number.isNaN(parsedAmount)) {
+              setAmount(0);
+            } else {
+              setAmount(parsedAmount);
+            }
+          }}
         />
         <button
           className="btn btn-primary uppercase"
+          disabled={!fromToken || !toToken || amount === 0 || fromToken.address === toToken.address}
           onClick={async () => {
             const response = await getOneInchSwapCalldata(
               "0xdac17f958d2ee523a2206206994597c13d831ec7",
