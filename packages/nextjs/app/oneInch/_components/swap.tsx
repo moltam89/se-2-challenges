@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { tokens } from "./tokens";
 import axios from "axios";
+import { ethers } from "ethers";
 
 type Token = {
   symbol: string;
@@ -21,6 +22,10 @@ export const Swap = () => {
   console.log("fromToken", fromToken);
   console.log("toToken", toToken);
   console.log("amount", amount);
+
+  useEffect(() => {
+    setOneInchResponse(null);
+  }, [fromToken, toToken, amount]);
 
   return (
     <div className="flex items-center flex-col flex-grow w-full px-4 gap-12">
@@ -59,7 +64,7 @@ export const Swap = () => {
           placeholder="amount"
           className="input input-bordered w-1/3 text-center"
           onChange={e => {
-            const parsedAmount = parseInt(e.target.value);
+            const parsedAmount = parseFloat(e.target.value);
             if (Number.isNaN(parsedAmount)) {
               setAmount(0);
             } else {
@@ -71,10 +76,13 @@ export const Swap = () => {
           className="btn btn-primary uppercase"
           disabled={!fromToken || !toToken || amount === 0 || fromToken.address === toToken.address}
           onClick={async () => {
+            if (!fromToken || !toToken || amount === 0 || fromToken.address === toToken.address) {
+                return;
+            }
             const response = await getOneInchSwapCalldata(
-              "0xdac17f958d2ee523a2206206994597c13d831ec7",
-              "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-              1000000000n,
+              fromToken.address,
+              toToken.address,
+              ethers.parseUnits(amount.toString(), fromToken.decimals),
               "0x1D47202c87939f3263A5469C9679169F6E2b7F57",
             );
             setOneInchResponse(response);
@@ -82,6 +90,7 @@ export const Swap = () => {
         >
           swap
         </button>
+        {oneInchResponse?.toAmount && <div>{ethers.formatUnits(oneInchResponse?.toAmount, toToken?.decimals)}</div>}
         {oneInchResponse && <OneInchResponseComponent response={oneInchResponse} />}
       </div>
     </div>
