@@ -9,7 +9,7 @@ type Token = {
   symbol: string;
   address: string;
   decimals: number;
-  img: string;
+  logoURI: string;
   network: number;
 };
 
@@ -101,7 +101,7 @@ export const TokenComponent = ({ token }: { token: Token }) => {
   return (
     <a href={"https://etherscan.io/token/" + token.address} target="_blank" rel="noopener noreferrer">
       <div className="flex items-center">
-        <img src={token.img} alt={token.symbol} className="w-8 h-8 mr-2" />
+        <img src={token.logoURI} alt={token.symbol} className="w-8 h-8 mr-2" />
 
         <div>
           <div className="font-bold">{token.symbol}</div>
