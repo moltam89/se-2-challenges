@@ -1,19 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import { tokens } from "./tokens";
 import axios from "axios";
 
 type Token = {
-  symbol: string;
-  address: string;
-  decimals: number;
-};
+    symbol: string;
+    address: string;
+    decimals: number;
+    img: string;
+    network: number;
+  };
 
 export const Swap = () => {
-  const [fromTokenSymbol, setFromTokenSymbol] = useState("");
-  const [toTokenSymbol, setToTokenSymbol] = useState("");
+  const [fromToken, setFromToken] = useState<Token | undefined>(undefined);
+  const [toToken, setToToken] = useState<Token | undefined>(undefined);
   const [amount, setAmount] = useState("");
   const [oneInchResponse, setOneInchResponse] = useState<OneInchResponse | null>(null);
+
+  console.log("fromToken", fromToken);
+  console.log("toToken", toToken);
 
   return (
     <div className="flex items-center flex-col flex-grow w-full px-4 gap-12">
@@ -27,15 +33,17 @@ export const Swap = () => {
             type="text"
             placeholder="e.g. USDT"
             className="input input-bordered w-1/3"
-            value={fromTokenSymbol}
-            onChange={e => setFromTokenSymbol(e.target.value)}
+            onChange={e => {
+            setFromToken(tokens.find(token => token.symbol.toLowerCase() === e.target.value.toLowerCase()));
+            }}
           />
           <input
             type="text"
             placeholder="e.g. USDC"
             className="input input-bordered w-1/3"
-            value={toTokenSymbol}
-            onChange={e => setToTokenSymbol(e.target.value)}
+            onChange={e => {
+                setToToken(tokens.find(token => token.symbol.toLowerCase() === e.target.value.toLowerCase()));
+              }}
           />
         </div>
         <input
