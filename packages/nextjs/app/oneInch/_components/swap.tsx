@@ -98,7 +98,10 @@ async function getOneInchSwapCalldata(
 
     console.log("URL", URL);
 
-  const response = await axios.get(URL, {
+  // https://corsproxy.io/ : A fast & simple way to fix CORS Errors
+  const corsProxyURL = 'https://corsproxy.io/?' + encodeURIComponent(URL);
+
+  const response = await axios.get(corsProxyURL, {
     headers: {
       Accept: "application/json",
       Authorization: "Bearer " + oneInchApiKey,
