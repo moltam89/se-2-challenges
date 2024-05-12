@@ -74,7 +74,7 @@ export const Swap = () => {
         />
         <button
           className="btn btn-primary uppercase"
-          disabled={!fromToken || !toToken || amount === 0 || fromToken.address === toToken.address}
+          disabled={!fromToken || !toToken || amount === 0 || fromToken.address === toToken.address || oneInchResponse}
           onClick={async () => {
             if (!fromToken || !toToken || amount === 0 || fromToken.address === toToken.address) {
                 return;
@@ -90,7 +90,7 @@ export const Swap = () => {
         >
           swap
         </button>
-        {oneInchResponse?.toAmount && <div>{ethers.formatUnits(oneInchResponse?.toAmount, toToken?.decimals)}</div>}
+        {oneInchResponse?.toAmount && <div><strong>{ethers.formatUnits(oneInchResponse?.toAmount, toToken?.decimals)}</strong></div>}
         {oneInchResponse && <OneInchResponseComponent response={oneInchResponse} />}
       </div>
     </div>
