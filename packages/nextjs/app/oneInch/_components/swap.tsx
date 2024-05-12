@@ -32,7 +32,7 @@ export const Swap = () => {
           <input
             type="text"
             placeholder="e.g. USDT"
-            className="input input-bordered w-1/3"
+            className="input input-bordered w-1/3 text-center"
             onChange={e => {
               setFromToken(tokens.find(token => token.symbol.toLowerCase() === e.target.value.toLowerCase()));
             }}
@@ -40,25 +40,23 @@ export const Swap = () => {
           <input
             type="text"
             placeholder="e.g. USDC"
-            className="input input-bordered w-1/3"
+            className="input input-bordered w-1/3 text-center"
             onChange={e => {
               setToToken(tokens.find(token => token.symbol.toLowerCase() === e.target.value.toLowerCase()));
             }}
           />
         </div>
-        <div className="flex justify-between">
-          <div className="w-1/3">
-            {fromToken && <TokenComponent token={fromToken} />}
+        {(fromToken || toToken) && (
+          <div className="flex justify-between">
+            <div className="w-1/3">{fromToken && <TokenComponent token={fromToken} />}</div>
+            <div className="w-1/3">{toToken && <TokenComponent token={toToken} />}</div>
           </div>
-          <div className="w-1/3">
-            {toToken && <TokenComponent token={toToken} />}
-          </div>
-          
-        </div>
+        )}
+
         <input
           type="text"
           placeholder="amount"
-          className="input input-bordered w-1/3"
+          className="input input-bordered w-1/3 text-center"
           value={amount}
           onChange={e => setAmount(e.target.value)}
         />
@@ -84,12 +82,15 @@ export const Swap = () => {
 
 export const TokenComponent = ({ token }: { token: Token }) => {
   return (
-    <div className="flex items-center">
-      <img src={token.img} alt={token.symbol} className="w-8 h-8 mr-2" />
-      <div>
-        <div className="font-bold">{token.symbol}</div>
+    <a href={"https://etherscan.io/token/" + token.address} target="_blank" rel="noopener noreferrer">
+      <div className="flex items-center">
+        <img src={token.img} alt={token.symbol} className="w-8 h-8 mr-2" />
+
+        <div>
+          <div className="font-bold">{token.symbol}</div>
+        </div>
       </div>
-    </div>
+    </a>
   );
 };
 
