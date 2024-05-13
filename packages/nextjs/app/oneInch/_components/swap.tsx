@@ -138,6 +138,7 @@ export const Swap = () => {
             <strong>{ethers.formatUnits(oneInchResponse1?.toAmount, toToken?.decimals)}</strong>
           </div>
         )}
+        {oneInchResponse1 && (!oneInchResponse2) && swapBack && <span className="loading loading-spinner loading-lg"></span>}
         {oneInchResponse2?.toAmount && (
           <div>
             <strong>{ethers.formatUnits(oneInchResponse2?.toAmount, fromToken?.decimals)}</strong>
