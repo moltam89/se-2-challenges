@@ -23,17 +23,6 @@ export const Swap = () => {
   console.log("fromToken", fromToken);
   console.log("toToken", toToken);
   console.log("amount", amount);
-  
-  const filterTokens = (tokens: any[]): Token[] => {
-    return tokens.map((token) => {
-      const { chainId, symbol, name, address, decimals, logoURI } = token;
-      return { chainId, symbol, name, address, decimals, logoURI };
-    });
-  };
-
-  console.log("filteredTokens", filterTokens(tokens));
-
-  const filteredTokens = filterTokens(tokens);
 
   useEffect(() => {
     setOneInchResponse(null);
