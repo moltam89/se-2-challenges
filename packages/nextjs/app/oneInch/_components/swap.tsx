@@ -6,26 +6,26 @@ import axios from "axios";
 import { ethers } from "ethers";
 
 type Token = {
-    chainId: number;
-    symbol: string;
-    name: string;
-    address: string;
-    decimals: number;
-    logoURI: string;
-  };
+  chainId: number;
+  symbol: string;
+  name: string;
+  address: string;
+  decimals: number;
+  logoURI: string;
+};
 
 export const Swap = () => {
   const [fromToken, setFromToken] = useState<Token | undefined>(undefined);
   const [toToken, setToToken] = useState<Token | undefined>(undefined);
   const [amount, setAmount] = useState<number>(0);
-  const [oneInchResponse, setOneInchResponse] = useState<OneInchResponse | null>(null);
+  const [oneInchResponse1, setOneInchResponse1] = useState<OneInchResponse | null>(null);
 
   console.log("fromToken", fromToken);
   console.log("toToken", toToken);
   console.log("amount", amount);
 
   useEffect(() => {
-    setOneInchResponse(null);
+    setOneInchResponse1(null);
   }, [fromToken, toToken, amount]);
 
   return (
@@ -41,7 +41,11 @@ export const Swap = () => {
             placeholder="e.g. USDT"
             className="input input-bordered w-1/3 text-center"
             onChange={e => {
-              const token = tokens.find(token => (token.symbol.toLowerCase() === e.target.value.toLowerCase()) || (token.address.toLocaleLowerCase() == e.target.value.toLocaleLowerCase())) as Token;
+              const token = tokens.find(
+                token =>
+                  token.symbol.toLowerCase() === e.target.value.toLowerCase() ||
+                  token.address.toLocaleLowerCase() == e.target.value.toLocaleLowerCase(),
+              ) as Token;
               setFromToken(token);
             }}
           />
@@ -50,7 +54,11 @@ export const Swap = () => {
             placeholder="e.g. USDC"
             className="input input-bordered w-1/3 text-center"
             onChange={e => {
-              const token = tokens.find(token => (token.symbol.toLowerCase() === e.target.value.toLowerCase()) || (token.address.toLocaleLowerCase() == e.target.value.toLocaleLowerCase())) as Token;
+              const token = tokens.find(
+                token =>
+                  token.symbol.toLowerCase() === e.target.value.toLowerCase() ||
+                  token.address.toLocaleLowerCase() == e.target.value.toLocaleLowerCase(),
+              ) as Token;
               setToToken(token);
             }}
           />
@@ -77,10 +85,10 @@ export const Swap = () => {
         />
         <button
           className="btn btn-primary uppercase"
-          disabled={!fromToken || !toToken || amount === 0 || fromToken.address === toToken.address || oneInchResponse}
+          disabled={!fromToken || !toToken || amount === 0 || fromToken.address === toToken.address || (oneInchResponse1 !== null)}
           onClick={async () => {
             if (!fromToken || !toToken || amount === 0 || fromToken.address === toToken.address) {
-                return;
+              return;
             }
             const response = await getOneInchSwapCalldata(
               fromToken.address,
@@ -88,13 +96,23 @@ export const Swap = () => {
               ethers.parseUnits(amount.toString(), fromToken.decimals),
               "0x1D47202c87939f3263A5469C9679169F6E2b7F57",
             );
-            setOneInchResponse(response);
+            setOneInchResponse1(response);
           }}
         >
           swap
         </button>
-        {oneInchResponse?.toAmount && <div><strong>{ethers.formatUnits(oneInchResponse?.toAmount, toToken?.decimals)}</strong></div>}
-        {oneInchResponse && <OneInchResponseComponent response={oneInchResponse} />}
+        <div className="form-control">
+          <label className="label cursor-pointer">
+            <span className="label-text">Swap back</span>
+            <input type="checkbox" className="toggle" />
+          </label>
+        </div>
+        {oneInchResponse1?.toAmount && (
+          <div>
+            <strong>{ethers.formatUnits(oneInchResponse1?.toAmount, toToken?.decimals)}</strong>
+          </div>
+        )}
+        {oneInchResponse1 && <OneInchResponseComponent response={oneInchResponse1} />}
       </div>
     </div>
   );
