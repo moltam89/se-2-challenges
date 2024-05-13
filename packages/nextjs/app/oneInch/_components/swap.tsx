@@ -85,7 +85,9 @@ export const Swap = () => {
         />
         <button
           className="btn btn-primary uppercase"
-          disabled={!fromToken || !toToken || amount === 0 || fromToken.address === toToken.address || (oneInchResponse1 !== null)}
+          disabled={
+            !fromToken || !toToken || amount === 0 || fromToken.address === toToken.address || oneInchResponse1 !== null
+          }
           onClick={async () => {
             if (!fromToken || !toToken || amount === 0 || fromToken.address === toToken.address) {
               return;
