@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { tokens } from "./tokens";
 import axios from "axios";
 import { ethers } from "ethers";
+import { ArrowPathRoundedSquareIcon } from "@heroicons/react/24/outline";
 
 type Token = {
   chainId: number;
@@ -87,6 +88,19 @@ export const Swap = () => {
             }
           }}
         />
+        <div>
+            <div className="form-control">
+              <label className="label cursor-pointer">
+                <span className="label-text"><ArrowPathRoundedSquareIcon className="h-8 w-8"/></span>
+                <input
+                  type="checkbox"
+                  className="toggle"
+                  checked={swapBack}
+                  onChange={e => setSwapBack(e.target.checked)}
+                />
+              </label>
+            </div>
+          </div>
         <button
           className="btn btn-primary uppercase"
           disabled={
@@ -117,19 +131,8 @@ export const Swap = () => {
             }
           }}
         >
-          swap
+          {swapBack ? "Swap Back" : "Swap"}
         </button>
-        <div className="form-control">
-          <label className="label cursor-pointer">
-            <span className="label-text">Swap back</span>
-            <input
-              type="checkbox"
-              className="toggle"
-              checked={swapBack}
-              onChange={e => setSwapBack(e.target.checked)}
-            />
-          </label>
-        </div>
         {oneInchResponse1?.toAmount && (
           <div>
             <strong>{ethers.formatUnits(oneInchResponse1?.toAmount, toToken?.decimals)}</strong>
