@@ -18,15 +18,19 @@ export const Swap = () => {
   const [fromToken, setFromToken] = useState<Token | undefined>(undefined);
   const [toToken, setToToken] = useState<Token | undefined>(undefined);
   const [amount, setAmount] = useState<number>(0);
+  const [swapBack, setSwapBack] = useState<boolean>(false);
   const [oneInchResponse1, setOneInchResponse1] = useState<OneInchResponse | null>(null);
+  const [oneInchResponse2, setOneInchResponse2] = useState<OneInchResponse | null>(null);
 
   console.log("fromToken", fromToken);
   console.log("toToken", toToken);
   console.log("amount", amount);
+  console.log("swapBack", swapBack);
 
   useEffect(() => {
     setOneInchResponse1(null);
-  }, [fromToken, toToken, amount]);
+    setOneInchResponse2(null);
+  }, [fromToken, toToken, amount, swapBack]);
 
   return (
     <div className="flex items-center flex-col flex-grow w-full px-4 gap-12">
@@ -92,13 +96,25 @@ export const Swap = () => {
             if (!fromToken || !toToken || amount === 0 || fromToken.address === toToken.address) {
               return;
             }
-            const response = await getOneInchSwapCalldata(
+            const response1 = await getOneInchSwapCalldata(
               fromToken.address,
               toToken.address,
               ethers.parseUnits(amount.toString(), fromToken.decimals),
               "0x1D47202c87939f3263A5469C9679169F6E2b7F57",
             );
-            setOneInchResponse1(response);
+            setOneInchResponse1(response1);
+
+            if (swapBack) {
+              await new Promise(r => setTimeout(r, 1420));
+
+              const response2 = await getOneInchSwapCalldata(
+                toToken.address,
+                fromToken.address,
+                BigInt(response1.toAmount),
+                "0x1D47202c87939f3263A5469C9679169F6E2b7F57",
+              );
+              setOneInchResponse2(response2);
+            }
           }}
         >
           swap
@@ -106,7 +122,12 @@ export const Swap = () => {
         <div className="form-control">
           <label className="label cursor-pointer">
             <span className="label-text">Swap back</span>
-            <input type="checkbox" className="toggle" />
+            <input
+              type="checkbox"
+              className="toggle"
+              checked={swapBack}
+              onChange={e => setSwapBack(e.target.checked)}
+            />
           </label>
         </div>
         {oneInchResponse1?.toAmount && (
@@ -114,7 +135,13 @@ export const Swap = () => {
             <strong>{ethers.formatUnits(oneInchResponse1?.toAmount, toToken?.decimals)}</strong>
           </div>
         )}
+        {oneInchResponse2?.toAmount && (
+          <div>
+            <strong>{ethers.formatUnits(oneInchResponse2?.toAmount, fromToken?.decimals)}</strong>
+          </div>
+        )}
         {oneInchResponse1 && <OneInchResponseComponent response={oneInchResponse1} />}
+        {oneInchResponse2 && <OneInchResponseComponent response={oneInchResponse2} />}
       </div>
     </div>
   );
