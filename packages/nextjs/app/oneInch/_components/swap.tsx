@@ -41,10 +41,8 @@ export const Swap = () => {
             placeholder="e.g. USDT"
             className="input input-bordered w-1/3 text-center"
             onChange={e => {
-              const token = tokens.find(token => token.symbol.toLowerCase() === e.target.value.toLowerCase());
-              if (token) {
-                setFromToken(token);
-              }
+              const token = tokens.find(token => (token.symbol.toLowerCase() === e.target.value.toLowerCase()) || (token.address.toLocaleLowerCase() == e.target.value.toLocaleLowerCase())) as Token;
+              setFromToken(token);
             }}
           />
           <input
@@ -52,7 +50,8 @@ export const Swap = () => {
             placeholder="e.g. USDC"
             className="input input-bordered w-1/3 text-center"
             onChange={e => {
-              setToToken(tokens.find(token => token.symbol.toLowerCase() === e.target.value.toLowerCase()));
+              const token = tokens.find(token => (token.symbol.toLowerCase() === e.target.value.toLowerCase()) || (token.address.toLocaleLowerCase() == e.target.value.toLocaleLowerCase())) as Token;
+              setToToken(token);
             }}
           />
         </div>
