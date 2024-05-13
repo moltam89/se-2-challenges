@@ -6,12 +6,13 @@ import axios from "axios";
 import { ethers } from "ethers";
 
 type Token = {
-  symbol: string;
-  address: string;
-  decimals: number;
-  logoURI: string;
-  network: number;
-};
+    chainId: number;
+    symbol: string;
+    name: string;
+    address: string;
+    decimals: number;
+    logoURI: string;
+  };
 
 export const Swap = () => {
   const [fromToken, setFromToken] = useState<Token | undefined>(undefined);
@@ -22,6 +23,17 @@ export const Swap = () => {
   console.log("fromToken", fromToken);
   console.log("toToken", toToken);
   console.log("amount", amount);
+  
+  const filterTokens = (tokens: any[]): Token[] => {
+    return tokens.map((token) => {
+      const { chainId, symbol, name, address, decimals, logoURI } = token;
+      return { chainId, symbol, name, address, decimals, logoURI };
+    });
+  };
+
+  console.log("filteredTokens", filterTokens(tokens));
+
+  const filteredTokens = filterTokens(tokens);
 
   useEffect(() => {
     setOneInchResponse(null);
@@ -40,7 +52,10 @@ export const Swap = () => {
             placeholder="e.g. USDT"
             className="input input-bordered w-1/3 text-center"
             onChange={e => {
-              setFromToken(tokens.find(token => token.symbol.toLowerCase() === e.target.value.toLowerCase()));
+              const token = tokens.find(token => token.symbol.toLowerCase() === e.target.value.toLowerCase());
+              if (token) {
+                setFromToken(token);
+              }
             }}
           />
           <input
